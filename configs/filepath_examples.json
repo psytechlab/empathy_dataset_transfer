@@ -1,0 +1,26 @@
+{
+    "examples": [
+        {
+            "input": {
+                "id":"b022fa9f75bb470a849651a912bc9b94",
+                "text":"Each type of pigment can be identified by the specific pattern of wavelengths it absorbs from visible light , which is the absorption spectrum ."
+            },
+            "result": {
+                "id": "b022fa9f75bb470a849651a912bc9b94",
+                "text": "Each type of pigment can be identified by the specific pattern of wavelengths it absorbs from visible light , which is the absorption spectrum .",
+                "text_rus": "Каждый тип пигмента может быть идентифицирован по специфической структуре длин волн, которую он поглощает от видимого света, что является спектром поглощения."
+            }
+        },
+        {
+            "input": {
+                "id":"258e3bba0d5e4934918d5f64142df310",
+                "text":"An individual with an error in chromosome number is described as aneuploid , a term that includes monosomy ( loss of one chromosome ) or trisomy ( gain of an extraneous chromosome ) ."
+            },
+            "result": {
+                "id": "258e3bba0d5e4934918d5f64142df310",
+                "text": "An individual with an error in chromosome number is described as aneuploid , a term that includes monosomy ( loss of one chromosome ) or trisomy ( gain of an extraneous chromosome ) .",
+                "text_rus": "Индивидуум с ошибочным количеством хромосом описывается как анеуплоид - термин, включающий моносомию (потеря одной хромосомы) или трисомию (увеличение посторонней хромосомы)."
+            }              
+        }
+    ]
+}

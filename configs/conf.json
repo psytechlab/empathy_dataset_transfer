@@ -1,0 +1,5 @@
+{
+    "base_url":"https://bothub.chat/api/v2/openai/v1",
+    "api_key":"",
+    "model":"gpt-4o"
+}
