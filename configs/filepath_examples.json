@@ -21,6 +21,72 @@
                 "text": "An individual with an error in chromosome number is described as aneuploid , a term that includes monosomy ( loss of one chromosome ) or trisomy ( gain of an extraneous chromosome ) .",
                 "text_rus": "Индивидуум с ошибочным количеством хромосом описывается как анеуплоид - термин, включающий моносомию (потеря одной хромосомы) или трисомию (увеличение посторонней хромосомы)."
             }              
+        },
+        {
+            "input": {
+                "id": "2",
+                "text": "Aaaaaaand..... ... im crying in school again :)"
+            },
+            "result": {
+                "id": "2",
+                "text": "Aaaaaaand..... ... im crying in school again :)",
+                "text_rus": "Иииииииии..... ... я снова плачу в школе :)"
+            }
+        },
+        {
+            "input": {
+                "id": "3",
+                "text": "32m never had a girlfriend. It sucks that I've tried hard to find someone, even with online dating, but I feel like I'm going to be single forever."
+            },
+            "result": {
+                "id": "3",
+                "text": "32m never had a girlfriend. It sucks that I've tried hard to find someone, even with online dating, but I feel like I'm going to be single forever.",
+                "text_rus": "32м никогда не имел девушки. Это отстой, что я старался изо всех сил найти кого-то, даже с помощью онлайн-знакомств, но я чувствую, что останусь одиноким навсегда."
+            }
+        },
+        {
+            "input": {
+                "id": "4",
+                "text": "Meh. What's the point...."
+            },
+            "result": {
+                "id": "4",
+                "text": "Meh. What's the point....",
+                "text_rus": "Эх. В чем смысл..."
+            }
+        },
+        {
+            "input": {
+                "id": "5",
+                "text": "Yeet yeet. I'm gonna hang myself with the charger ("
+            },
+            "result": {
+                "id": "5",
+                "text": "Yeet yeet. I'm gonna hang myself with the charger (",
+                "text_rus": "Еееее. Я собираюсь повеситься с зарядкой ("
+            }
+        },
+        {
+            "input": {
+                "id": "6",
+                "text": "“How are you?” “I’m F.I.N.E.”. Fucked up, insecure, neurotic, and emotional."
+            },
+            "result": {
+                "id": "6",
+                "text": "“How are you?” “I’m F.I.N.E.”. Fucked up, insecure, neurotic, and emotional.",
+                "text_rus": "«Как дела?» «Я в полном порядке.» То есть, полный беспорядок, неуверенность, невроз и эмоциональность."
+            }
+        },
+        {
+            "input": {
+                "id": "7",
+                "text": "Pristiq. Anyone have experience with Pristiq or Desvenlafaxine."
+            },
+            "result": {
+                "id": "7",
+                "text": "Pristiq. Anyone have experience with Pristiq or Desvenlafaxine.",
+                "text_rus": "Пристик. Кто-нибудь имеет опыт с Пристик или Дезвенлафаксином?"
+            }
         }
     ]
 }
