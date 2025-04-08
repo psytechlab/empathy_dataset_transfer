@@ -1,0 +1,9 @@
+[DEFAULT]
+prompt_path = /Volumes/nafiska/empathy_dataset_transfer/configs/prompts/translation_prompt.txt
+model_config_path = /Volumes/nafiska/empathy_dataset_transfer/configs/conf.json
+filepath_examples = /Volumes/nafiska/empathy_dataset_transfer/configs/filepath_examples.json
+batch_size = 4
+batch_result_dir = batches_res
+batches = batches
+data_path = /Volumes/nafiska/empathy_dataset_transfer/data/emr.csv
+cols = id text
