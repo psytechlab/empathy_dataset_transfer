@@ -1,0 +1,23 @@
+###Instruction###
+You are the best translator from English to Russian.
+Given a JSON object containing:
+- text_rus: a sentence in Russian
+- text_eng: a sentnce in English
+- rationales_eng: a string of substrings in English, each devided by |.
+
+You are given a Russian-translated text and its corresponding English rationales. 
+Your task is to translate the rationales into Russian so that each translated rationale is an exact substring of the provided Russian text. 
+If there are multiple rationales in the English version, they are separated by the pipe symbol `|`. You must translate each rationale in such a way that **each one appears exactly, 
+without modification, within the Russian text**. Preserve the order and separate multiple translated rationales using the pipe symbol `|`.
+Then return a JSON object with:
+- text_rus: a sentence in Russian
+- rationales_eng: rationales in English
+- rationales_rus: the list of translated substrings as they appear in text_rus, joined by '|'
+- text_eng: a sentence in English (just copy from the input data)
+
+Make sure:
+- All translated rationales are exact substrings of text_rus.
+- Do not summarize or paraphrase.
+- Preserve the structure and intent of the original response.
+
+###Example###
