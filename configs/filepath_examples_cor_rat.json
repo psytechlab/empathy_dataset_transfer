@@ -1,0 +1,19 @@
+{
+    "examples": [
+        {
+            "input": {
+                "id": "b022fa9f75bb470a849651a912bc9b94",
+                "text_rus": "Чувак, не говори так, дружище, твоя семья тебя любит, поверь мне, ты точно не хочешь рак.",
+                "text_eng": "Dude don't say that man your family loves you and trust me you do not want cancer",
+                "rationales_eng": "Dude, не говори так|твоя семья любит тебя"
+            },
+            "result": {
+                "id": "b022fa9f75bb470a849651a912bc9b94",
+                "text_rus": "Чувак, не говори так, дружище, твоя семья тебя любит, поверь мне, ты точно не хочешь рак.",
+                "text_eng": "Dude don't say that man your family loves you and trust me you do not want cancer",
+                "rationales_eng": "Dude, не говори так|твоя семья любит тебя",
+                "rationales_rus": "Чувак, не говори так|твоя семья любит тебя"
+            }
+        }
+    ]
+}

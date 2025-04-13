@@ -1,7 +1,9 @@
 import json
-import os
-from datasets import Dataset
 import logging
+import os
+
+from datasets import Dataset
+
 
 def load_jsonl_to_dataset(filepath: str) -> Dataset:
     """Функция загружает файл JSONL и преобразует его обратно в формат dataset"""
