@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class ResultSchema(BaseModel):
+class GeneralTranslationResultSchema(BaseModel):
     """
     Pydantic schema for validating the structure of translation results.
 
@@ -16,7 +16,7 @@ class ResultSchema(BaseModel):
     text_rus: str
 
 
-class ResultSchemaRationales(BaseModel):
+class RationaleTranslationResultSchema(BaseModel):
     """
     Pydantic schema for validating the structure of rationales translation results.
 

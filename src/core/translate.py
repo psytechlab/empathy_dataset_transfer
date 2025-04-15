@@ -103,7 +103,7 @@ class Translator:
 
         return prompt_template | self.model | parser
 
-    def translate(self, input_dataset: Dataset, ResultSchema: BaseModel) -> list:
+    def translate(self, input_dataset: Dataset, ResultSchema: BaseModel, max_retries: int = 3, retry_delay: int = 2) -> list:
         """Processes all batches through the translation pipeline.
 
         Handles each input with retry logic, validates outputs against schema,
@@ -112,6 +112,8 @@ class Translator:
         Args:
             input_dataset (Dataset): Dataset containing texts to be translated.
             ResultSchema (BaseModel): A schema to check for the results.
+            max_retries (int): Maximum number of retries to translate.
+            retry_delay (int): Time delay between retries.
 
         Returns:
             list: List of all successfully processed translation results.
@@ -139,8 +141,6 @@ class Translator:
 
                 success = False
                 attempt = 0
-                max_retries = 3
-                retry_delay = 2
 
                 while not success and attempt < max_retries:
                     try:
