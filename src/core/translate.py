@@ -132,52 +132,50 @@ class Translator:
 
             batch_results = []
 
-            for i, input_example in enumerate(batch):
-                user_input = "Input: {0}\nResult:".format(
-                    json.dumps(input_example, ensure_ascii=False)
-                )
-                # получаем id примера или создаем временный
-                example_id = input_example.get("id", f"example_{i}")
+            formatted_inputs = [
+                f"{i+1}. Input: {json.dumps(example, ensure_ascii=False)}"
+                for i, example in enumerate(batch)
+            ]
+            user_input = "\n\n".join(
+                formatted_inputs) + "\n\nReturn the result as a list of JSON objects, one per input, preserving the order."
 
-                success = False
-                attempt = 0
+            success = False
+            attempt = 0
+            while not success and attempt < max_retries:
+                try:
+                    res = (
+                        self.chain.invoke({"text": user_input})
+                        .strip("`")
+                        .strip("json")
+                        .strip()
+                    )
 
-                while not success and attempt < max_retries:
-                    try:
-                        res = (
-                            self.chain.invoke({"text": user_input})
-                            .strip("`")
-                            .strip("json")
-                            .strip()
-                        )
+                    result_list = json.loads(res)
+                    assert isinstance(
+                        result_list, list), "Expected a list of JSON results."
 
-                        if not res or not res.startswith("{"):
-                            raise ValueError(
-                                f"Unexpected response format: {res}")
-                        result_json = json.loads(res)
-
-                        # Приведение ID к строке
+                    validated_results = []
+                    for result_json in result_list:
                         result_json["id"] = str(result_json["id"])
-
-                        # Проверка схемы
                         ResultSchema.parse_obj(result_json)
+                        validated_results.append(result_json)
 
-                        batch_results.append(result_json)
-                        success = True
-                    except (json.JSONDecodeError, ValueError) as e:
-                        attempt += 1
-                        logging.warning(
-                            f"Error on input #{i} (id: {example_id}): {str(e)}. Attempt {attempt} of {max_retries}. Retrying..."
-                        )
-                        time.sleep(retry_delay)
-                    except Exception as e:
-                        attempt += 1
-                        logging.error(
-                            f"Unexpected error on input #{i} (id: {example_id}): {str(e)}. Attempt {attempt} of {max_retries}. Retrying..."
-                        )
-                        time.sleep(retry_delay)
+                    batch_results = validated_results
+                    success = True
 
-            # Добавляем результаты текущего батча к общим результатам
+                except (json.JSONDecodeError, ValueError, AssertionError) as e:
+                    attempt += 1
+                    logging.warning(
+                        f"Error on batch #{batch_idx}: {str(e)}. Attempt {attempt} of {max_retries}. Retrying..."
+                    )
+                    time.sleep(retry_delay)
+                except Exception as e:
+                    attempt += 1
+                    logging.error(
+                        f"Unexpected error on batch #{batch_idx}: {str(e)}. Attempt {attempt} of {max_retries}. Retrying..."
+                    )
+                    time.sleep(retry_delay)
+
             list_of_results.extend(batch_results)
 
             # Сохраняем результаты батча только если используется разбиение на батчи
