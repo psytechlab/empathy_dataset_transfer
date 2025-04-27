@@ -1,0 +1,19 @@
+{
+    "examples": [
+        {
+            "input": {
+                "id": 1,
+                "text_rus": "Мне жаль слышать, что ты так себя чувствуешь. Ты не один.",
+                "text_eng": "I'm sorry to hear that you're feeling this way. You're not alone.",
+                "rationales_eng": "I'm sorry to hear that you're feeling this way|You're not alone."
+            },
+            "result": {
+                "id": 1,
+                "text_rus": "Мне жаль слышать, что ты так себя чувствуешь. Ты не один.",
+                "text_eng": "I'm sorry to hear that you're feeling this way. You're not alone.",
+                "rationales_eng": "I'm sorry to hear that you're feeling this way|You're not alone.",
+                "rationales_rus": "Мне жаль слышать, что ты так себя чувствуешь|Ты не один."
+            }
+        }
+    ]
+}

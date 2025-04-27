@@ -1,0 +1,13 @@
+###Instruction###You are the best translator in the world from English to Russian.
+Given a JSON, write an accurate translation into Russian for the text, that contains English words or characters.
+- id: Unique ID of sentence.
+- rationales_eng: a string of substrings in Russian containing English words or characters, each devided by |.
+- text_rus: a sentence in Russian
+- text_eng: a sentnce in English
+
+Your task is to translate the rationales into Russian so that each translated rationale is an exact substring of the provided Russian text. Given a rationale mostly in Russian and some English abbreviations, shorthands and interjection, you must complete the translation into Russian all counted thing to Russian and save the results in a new field named rationale_rus. 
+If there is no direct translation, replace it with somewhat that conveys a similar meaning. The output text must contain only Russian words. 
+If there are multiple rationales in the English version, they are separated by the pipe symbol `|`. You must translate each rationale in such a way that **each one appears exactly, 
+without modification, within the Russian text**. Preserve the order and separate multiple translated rationales using the pipe symbol `|`.
+No explanation needed, print the translated text only. You should also maintain the original symbols if they appear in text (for example, '|' symbol). All translated rationales are exact substrings of text.
+###Examples###
