@@ -2,8 +2,8 @@
 
 import logging
 import time
-from typing import Callable, Union, Literal
-from pathlib import Path
+from abc import ABC, abstractmethod
+from typing import Callable, Union, Literal, Type
 
 import requests
 from datasets import Dataset
@@ -15,10 +15,100 @@ from pydantic import BaseModel
 from src.utils.batching_utils import *
 
 
+class BaseLLMClient(ABC):
+    """Abstract base class for LLM clients"""
+
+    @abstractmethod
+    def initialize(self, config: dict) -> None:
+        """Initialize the client with configuration"""
+        pass
+
+    @abstractmethod
+    def generate(self, prompt: str) -> str:
+        """Generate response from the model"""
+        pass
+
+
+class OpenAIClient(BaseLLMClient):
+    """Client for OpenAI models"""
+
+    def __init__(self):
+        self.model = None
+        self.chain = None
+
+    def initialize(self, config: dict) -> None:
+        """Initialize OpenAI client"""
+        self.model = ChatOpenAI(
+            base_url=config["base_url"],
+            api_key=config["api_key"],
+            model=config["model"],
+        )
+
+    def set_chain(self, system_template: str) -> None:
+        """Set up the processing chain"""
+        parser = StrOutputParser()
+        prompt_template = ChatPromptTemplate.from_messages(
+            [("system", system_template), ("user", "{text}")]
+        )
+        self.chain = prompt_template | self.model | parser
+
+    def generate(self, prompt: str) -> str:
+        """Generate response using OpenAI model"""
+        return self.chain.invoke({"text": prompt}).strip("`").strip("json").strip()
+
+
+class YandexGPTClient(BaseLLMClient):
+    """Client for Yandex GPT models"""
+
+    def __init__(self):
+        self.config = None
+        self.system_message = None
+
+    def initialize(self, config: dict) -> None:
+        """Initialize Yandex GPT client"""
+        self.config = config
+
+    def set_system_message(self, system_message: str) -> None:
+        """Set the system message for Yandex GPT"""
+        self.system_message = system_message
+
+    def generate(self, prompt: str) -> str:
+        """Generate response using Yandex GPT"""
+        request_data = {
+            "modelUri": self.config["model_uri"],
+            "completionOptions": {
+                "stream": False,
+                "temperature": 0.6,
+                "maxTokens": "20000"
+            },
+            "messages": [
+                {
+                    "role": "system",
+                    "text": self.system_message
+                },
+                {
+                    "role": "user",
+                    "text": prompt
+                }
+            ]
+        }
+
+        response = requests.post(
+            self.config["url"],
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Api-Key {self.config['api_key']}"
+            },
+            json=request_data
+        )
+        response.raise_for_status()
+        result = json.loads(response.text)
+        return result["result"]["alternatives"][0]["message"]["text"].strip("`").strip('\n')
+
+
 class Translator:
     """
     A class responsible for translating batches of text data using different language models.
-    Supports both OpenAI and Yandex GPT models.
     """
 
     def __init__(
@@ -45,46 +135,48 @@ class Translator:
         self.batch_size = batch_size
         self.batch_result_dir = batch_result_dir
         self.batch_dir = batch_dir
-        self.model_type = model_type
 
+        self.client = self._initialize_client(model_type, model_config)
+        self._prepare_prompt_template(example_data, system_message)
+
+    def _initialize_client(
+        self,
+        model_type: str,
+        config: dict
+    ) -> BaseLLMClient:
+        """Initializes the appropriate LLM client.
+
+        Args:
+            model_type: Type of model ("openai" or "yandex_gpt")
+            config: Model configuration dictionary
+
+        Returns:
+            Initialized LLM client instance
+
+        Raises:
+            ValueError: If unsupported model type is specified
+        """
         if model_type == "openai":
-            self.model = self._initialize_openai_model(model_config)
-            self.chain = self._get_openai_chain(example_data, system_message)
+            client = OpenAIClient()
         elif model_type == "yandex_gpt":
-            self.model_config = model_config
-            self.system_message = self._prepare_system_template(
-                example_data, system_message)
+            client = YandexGPTClient()
         else:
             raise ValueError(f"Unsupported model type: {model_type}")
 
-    def _initialize_openai_model(self, config: dict) -> ChatOpenAI:
-        """Initializes the ChatOpenAI language model.
+        client.initialize(config)
+        return client
 
-        Args:
-            config (dict): Model configuration containing:
-                - base_url (str): API endpoint URL
-                - api_key (str): Authentication key
-                - model (str): Model identifier
-
-        Returns:
-            ChatOpenAI: Initialized language model instance.
-        """
-        return ChatOpenAI(
-            base_url=config["base_url"],
-            api_key=config["api_key"],
-            model=config["model"],
-        )
-
-    def _prepare_system_template(self, examples_data: dict, system_message: str) -> str:
+    def _prepare_prompt_template(
+        self,
+        examples_data: dict,
+        system_message: str
+    ) -> None:
         """
         Prepares the prompt template by combining the system message and examples.
 
         Args:
             examples_data (dict): Dictionary containing example inputs and outputs.
             system_message (str): Base system instruction text.
-
-        Returns:
-            str: Complete system prompt combining instructions and examples.
         """
         system_template = system_message
         examples = examples_data["examples"]
@@ -93,66 +185,19 @@ class Translator:
             f"Example Result: {json.dumps(example['result'], ensure_ascii=False, indent=2).replace('{', '{{').replace('}', '}}')}"
             for example in examples
         )
-        return system_template
 
-    def _get_openai_chain(self, examples_data: dict, system_message: str) -> Callable:
-        """Creates the OpenAI processing chain combining prompt, model and parser.
+        if isinstance(self.client, OpenAIClient):
+            self.client.set_chain(system_template)
+        elif isinstance(self.client, YandexGPTClient):
+            self.client.set_system_message(system_template)
 
-        Args:
-            examples_data (dict): Example data for prompt construction.
-            system_message (str): System instruction text.
-
-        Returns:
-            Callable: Configured processing chain ready for invocation.
-        """
-        system_template = self._prepare_system_template(
-            examples_data, system_message)
-        parser = StrOutputParser()
-        prompt_template = ChatPromptTemplate.from_messages(
-            [("system", system_template), ("user", "{text}")]
-        )
-        return prompt_template | self.model | parser
-
-    def _call_yandex_gpt(self, user_input: str) -> str:
-        """Makes a request to Yandex GPT API.
-
-        Args:
-            user_input (str): Input text to process.
-
-        Returns:
-            str: Raw response from Yandex GPT.
-        """
-        prompt = {
-            "modelUri": self.model_config["model_uri"],
-            "completionOptions": {
-                "stream": False,
-                "temperature": 0.6,
-                "maxTokens": "20000"
-            },
-            "messages": [
-                {
-                    "role": "system",
-                    "text": self.system_message
-                },
-                {
-                    "role": "user",
-                    "text": user_input
-                }
-            ]
-        }
-
-        response = requests.post(
-            self.model_config["url"],
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Api-Key {self.model_config['api_key']}"
-            },
-            json=prompt
-        )
-        response.raise_for_status()
-        return response.text
-
-    def translate(self, input_dataset: Dataset, ResultSchema: BaseModel, max_retries: int = 3, retry_delay: int = 2) -> list:
+    def translate(
+        self,
+        input_dataset: Dataset,
+        ResultSchema: Type[BaseModel],
+        max_retries: int = 3,
+        retry_delay: int = 2
+    ) -> list:
         """Processes all batches through the translation pipeline.
 
         Handles each input with retry logic, validates outputs against schema,
@@ -192,19 +237,7 @@ class Translator:
             attempt = 0
             while not success and attempt < max_retries:
                 try:
-                    if self.model_type == "openai":
-                        res = (
-                            self.chain.invoke({"text": user_input})
-                            .strip("`")
-                            .strip("json")
-                            .strip()
-                        )
-                    else:
-                        response_text = self._call_yandex_gpt(user_input)
-                        result = json.loads(response_text)
-                        res = result["result"]["alternatives"][0]["message"]["text"].strip(
-                            "`").strip('\n')
-
+                    res = self.client.generate(user_input)
                     result_list = json.loads(res)
                     assert isinstance(
                         result_list, list), "Expected a list of JSON results."
@@ -233,7 +266,6 @@ class Translator:
 
             list_of_results.extend(batch_results)
 
-            # Save batch results if batch size > 0
             if self.batch_size > 0:
                 batch_result_dir = create_directory_if_not_exists(
                     self.batch_result_dir)
