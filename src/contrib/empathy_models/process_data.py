@@ -41,16 +41,16 @@ for row in csv_reader:
     response_masked = response
 
     response_tokenized = tokenizer.decode(tokenizer.encode_plus(
-        response, add_special_tokens=True, max_length=max_length, pad_to_max_length=True)['input_ids'], clean_up_tokenization_spaces=False)
+        response, add_special_tokens=True, max_length=max_length, truncation=True, padding='max_length')['input_ids'], clean_up_tokenization_spaces=False)
 
     response_tokenized_non_padded = tokenizer.decode(tokenizer.encode_plus(
-        response, add_special_tokens=True, max_length=max_length, pad_to_max_length=False)['input_ids'], clean_up_tokenization_spaces=False)
+        response, add_special_tokens=True, padding='longest')['input_ids'], clean_up_tokenization_spaces=False)
 
     response_words = tokenizer.tokenize(response_tokenized)
     response_non_padded_words = tokenizer.tokenize(
         response_tokenized_non_padded)
 
-    if len(response_words) != 64:
+    if len(response_words) != max_length:
         continue
 
     response_words_position = np.zeros((len(response),), dtype=np.int32)
