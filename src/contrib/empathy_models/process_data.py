@@ -5,19 +5,21 @@ import re
 import numpy as np
 import argparse
 
-from transformers import RobertaTokenizer
+from transformers import AutoTokenizer
 
 parser = argparse.ArgumentParser("process_data")
 parser.add_argument("--input_path", type=str, help="path to input data")
 parser.add_argument("--output_path", type=str, help="path to output data")
-parser.add_argument("--max_length", type=str,
+parser.add_argument("--max_length", type=int,
                     help="max_length to truncate", default=128)
-
-tokenizer = RobertaTokenizer.from_pretrained(
-    'DeepPavlov/rubert-base-cased', do_lower_case=True)
-
+parser.add_argument("--model_name", type=str,
+                    help="a model name for tokenizer", default='DeepPavlov/rubert-base-cased')
 
 args = parser.parse_args()
+
+tokenizer = AutoTokenizer.from_pretrained(
+    args.model_name, do_lower_case=True)
+
 
 input_file = codecs.open(args.input_path, 'r', 'utf-8')
 output_file = codecs.open(args.output_path, 'w', 'utf-8')
