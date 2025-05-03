@@ -14,7 +14,7 @@ import time
 
 from sklearn.metrics import f1_score
 
-from transformers import RobertaTokenizer
+from transformers import AutoTokenizer
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from torch.utils.data import TensorDataset, random_split
 
@@ -27,20 +27,25 @@ import datetime
 class EmpathyClassifier():
 
     def __init__(self,
+                 model_name,
                  device,
                  ER_model_path='output/sample.pth',
                  IP_model_path='output/sample.pth',
                  EX_model_path='output/sample.pth',
-                 batch_size=1):
+                 batch_size=1,
+                 max_len=128):
 
-        self.tokenizer = RobertaTokenizer.from_pretrained(
-            'roberta-base', do_lower_case=True)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_name, do_lower_case=True)
         self.batch_size = batch_size
         self.device = device
 
-        self.model_ER = BiEncoderAttentionWithRationaleClassification()
-        self.model_IP = BiEncoderAttentionWithRationaleClassification()
-        self.model_EX = BiEncoderAttentionWithRationaleClassification()
+        self.model_ER = BiEncoderAttentionWithRationaleClassification(
+            model_name)
+        self.model_IP = BiEncoderAttentionWithRationaleClassification(
+            model_name)
+        self.model_EX = BiEncoderAttentionWithRationaleClassification(
+            model_name)
 
         ER_weights = torch.load(ER_model_path)
         self.model_ER.load_state_dict(ER_weights)
@@ -54,6 +59,7 @@ class EmpathyClassifier():
         self.model_ER.to(self.device)
         self.model_IP.to(self.device)
         self.model_EX.to(self.device)
+        self.max_len = max_len
 
     def predict_empathy(self, seeker_posts, response_posts):
 
@@ -65,8 +71,9 @@ class EmpathyClassifier():
             encoded_dict = self.tokenizer.encode_plus(
                 sent,                      # Sentence to encode.
                 add_special_tokens=True,  # Add '[CLS]' and '[SEP]'
-                max_length=64,           # Pad & truncate all sentences.
-                pad_to_max_length=True,
+                # Pad & truncate all sentences.
+                max_length=self.max_len,
+                truncation=True, padding='max_length',
                 return_attention_mask=True,   # Construct attn. masks.
                 return_tensors='pt',     # Return pytorch tensors.
             )
@@ -81,8 +88,9 @@ class EmpathyClassifier():
             encoded_dict = self.tokenizer.encode_plus(
                 sent,                      # Sentence to encode.
                 add_special_tokens=True,  # Add '[CLS]' and '[SEP]'
-                max_length=64,           # Pad & truncate all sentences.
-                pad_to_max_length=True,
+                # Pad & truncate all sentences.
+                max_length=self.max_len,
+                truncation=True, padding='max_length',
                 return_attention_mask=True,   # Construct attn. masks.
                 return_tensors='pt',     # Return pytorch tensors.
             )
