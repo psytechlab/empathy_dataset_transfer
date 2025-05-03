@@ -156,7 +156,7 @@ class BiEncoderAttentionWithRationaleClassification(nn.Module):
             lambda_EI=1,
             lambda_RE=0.1
     ):
-        outputs_SP = self.seeker_encoder.roberta(
+        outputs_SP = self.seeker_encoder(
             input_ids_SP,
             attention_mask=attention_mask_SP,
             token_type_ids=token_type_ids_SP,
@@ -165,7 +165,7 @@ class BiEncoderAttentionWithRationaleClassification(nn.Module):
             inputs_embeds=inputs_embeds_SP,
         )
 
-        outputs_RP = self.responder_encoder.roberta(
+        outputs_RP = self.responder_encoder(
             input_ids_RP,
             attention_mask=attention_mask_RP,
             token_type_ids=token_type_ids_RP,

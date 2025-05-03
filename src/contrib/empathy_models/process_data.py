@@ -7,17 +7,21 @@ import argparse
 
 from transformers import RobertaTokenizer
 
-tokenizer = RobertaTokenizer.from_pretrained(
-    'DeepPavlov/rubert-base-cased', do_lower_case=True)
-
 parser = argparse.ArgumentParser("process_data")
 parser.add_argument("--input_path", type=str, help="path to input data")
 parser.add_argument("--output_path", type=str, help="path to output data")
+parser.add_argument("--max_length", type=str,
+                    help="max_length to truncate", default=128)
+
+tokenizer = RobertaTokenizer.from_pretrained(
+    'DeepPavlov/rubert-base-cased', do_lower_case=True)
+
+
 args = parser.parse_args()
 
 input_file = codecs.open(args.input_path, 'r', 'utf-8')
 output_file = codecs.open(args.output_path, 'w', 'utf-8')
-
+max_length = args.max_length
 csv_reader = csv.reader(input_file, delimiter=',', quotechar='"')
 csv_writer = csv.writer(output_file, delimiter=',', quotechar='"')
 
@@ -35,10 +39,10 @@ for row in csv_reader:
     response_masked = response
 
     response_tokenized = tokenizer.decode(tokenizer.encode_plus(
-        response, add_special_tokens=True, max_length=128, pad_to_max_length=True)['input_ids'], clean_up_tokenization_spaces=False)
+        response, add_special_tokens=True, max_length=max_length, pad_to_max_length=True)['input_ids'], clean_up_tokenization_spaces=False)
 
     response_tokenized_non_padded = tokenizer.decode(tokenizer.encode_plus(
-        response, add_special_tokens=True, max_length=128, pad_to_max_length=False)['input_ids'], clean_up_tokenization_spaces=False)
+        response, add_special_tokens=True, max_length=max_length, pad_to_max_length=False)['input_ids'], clean_up_tokenization_spaces=False)
 
     response_words = tokenizer.tokenize(response_tokenized)
     response_non_padded_words = tokenizer.tokenize(
