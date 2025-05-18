@@ -1,27 +1,15 @@
 import torch
-import codecs
 import numpy as np
 
 
-import pandas as pd
-import re
-import csv
 import numpy as np
-import sys
-import argparse
 
-import time
-
-from sklearn.metrics import f1_score
 
 from transformers import AutoTokenizer
-from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
-from torch.utils.data import TensorDataset, random_split
+from torch.utils.data import DataLoader, SequentialSampler
+from torch.utils.data import TensorDataset
 
 from models.models import BiEncoderAttentionWithRationaleClassification
-from transformers import RobertaConfig
-from torch.optim import AdamW
-import datetime
 
 
 class EmpathyClassifier():

@@ -1,5 +1,4 @@
 import codecs
-import os
 import csv
 import re
 import numpy as np

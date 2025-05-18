@@ -1,26 +1,10 @@
-from .roberta import RobertaForTokenClassification, RobertaModel
 import torch
 import torch.nn as nn
-from torch.nn import CrossEntropyLoss, MSELoss
+from torch.nn import CrossEntropyLoss
 import math
 import torch.nn.functional as F
 
-from .modeling_bert import BertEmbeddings, BertLayerNorm, BertModel, BertPreTrainedModel, gelu
-from .configuration_roberta import RobertaConfig
-from .file_utils import add_start_docstrings, add_start_docstrings_to_callable
-
-from transformers import GPT2Model
-from transformers import AutoModelWithLMHead, AutoTokenizer, AutoModel
-
-
-ROBERTA_PRETRAINED_MODEL_ARCHIVE_MAP = {
-    "roberta-base": "https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin",
-    "roberta-large": "https://s3.amazonaws.com/models.huggingface.co/bert/roberta-large-pytorch_model.bin",
-    "roberta-large-mnli": "https://s3.amazonaws.com/models.huggingface.co/bert/roberta-large-mnli-pytorch_model.bin",
-    "distilroberta-base": "https://s3.amazonaws.com/models.huggingface.co/bert/distilroberta-base-pytorch_model.bin",
-    "roberta-base-openai-detector": "https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-openai-detector-pytorch_model.bin",
-    "roberta-large-openai-detector": "https://s3.amazonaws.com/models.huggingface.co/bert/roberta-large-openai-detector-pytorch_model.bin",
-}
+from transformers import AutoModel
 
 
 class Norm(nn.Module):
@@ -129,7 +113,7 @@ class BiEncoderAttentionWithRationaleClassification(nn.Module):
             # cf https://github.com/pytorch/pytorch/pull/5617
             initializer_range = 0.02
             module.weight.data.normal_(mean=0.0, std=initializer_range)
-        elif isinstance(module, BertLayerNorm):
+        elif isinstance(module, torch.nn.LayerNorm):
             module.bias.data.zero_()
             module.weight.data.fill_(1.0)
         if isinstance(module, nn.Linear) and module.bias is not None:

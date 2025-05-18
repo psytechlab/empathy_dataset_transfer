@@ -1,7 +1,5 @@
 from sklearn.metrics import f1_score
 import numpy as np
-import pandas as pd
-import math
 from collections import defaultdict
 
 
