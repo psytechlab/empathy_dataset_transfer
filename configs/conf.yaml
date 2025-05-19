@@ -2,9 +2,9 @@ general_translation:
   prompt_path: /Volumes/nafiska/empathy_dataset_transfer/configs/prompts/translation_prompt.txt
   model_config_path: /Volumes/nafiska/empathy_dataset_transfer/configs/conf.json
   filepath_examples: /Volumes/nafiska/empathy_dataset_transfer/configs/filepath_examples.json
-  batch_size: 4
-  batch_result_dir: batches_res_general_translation
-  batches: batches_general_translation
+  batch_size: 2
+  batch_result_dir: batches_res_general_translation_qwen72
+  batches: batches_general_translation_qwen72
   data_path: /Volumes/nafiska/empathy_dataset_transfer/data/emr.csv
   cols: id text
 
@@ -12,7 +12,7 @@ general_translation_correction:
   prompt_path: /Volumes/nafiska/empathy_dataset_transfer/configs/prompts/translation_correction_prompt.txt
   model_config_path: /Volumes/nafiska/empathy_dataset_transfer/configs/conf.json
   filepath_examples: /Volumes/nafiska/empathy_dataset_transfer/configs/filepath_examples_cor.json
-  batch_size: 4
+  batch_size: 2
   batch_result_dir: batches_res_general_translation_correcton
   batches: batches_general_translation_correction
 
@@ -20,7 +20,7 @@ rationales_translation:
   prompt_path: /Volumes/nafiska/empathy_dataset_transfer/configs/prompts/rationales_translation_prompt.txt
   model_config_path: /Volumes/nafiska/empathy_dataset_transfer/configs/conf.json
   filepath_examples: /Volumes/nafiska/empathy_dataset_transfer/configs/filepath_examples_rat.json
-  batch_size: 4
+  batch_size: 2
   batch_result_dir: batches_res_rationales_translation
   batches: batches_rationales_translation
   data_path: /Volumes/nafiska/empathy_dataset_transfer/data/rats.json
@@ -30,6 +30,6 @@ rationales_translation_correction:
   prompt_path: /Volumes/nafiska/empathy_dataset_transfer/configs/prompts/rationales_translation_correction_prompt.txt
   model_config_path: /Volumes/nafiska/empathy_dataset_transfer/configs/conf.json
   filepath_examples: /Volumes/nafiska/empathy_dataset_transfer/configs/filepath_examples_cor_rat.json
-  batch_size: 4
+  batch_size: 2
   batch_result_dir: batches_res_rationales_translation_correction
   batches: batches_rationales_translation_correction
