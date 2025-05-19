@@ -88,7 +88,7 @@ class BiEncoderAttentionWithRationaleClassification(nn.Module):
         self.norm = Norm(hidden_size)
         self.rationale_num_labels = rationale_num_labels
         self.empathy_num_labels = empathy_num_labels
-        self.empathy_classifier = RobertaClassificationHead(hidden_size=768)
+        self.empathy_classifier = ClassificationHead(hidden_size=768)
 
         self.apply(self._init_weights)
 
@@ -204,7 +204,7 @@ class BiEncoderAttentionWithRationaleClassification(nn.Module):
         return outputs
 
 
-class RobertaClassificationHead(nn.Module):
+class ClassificationHead(nn.Module):
     """Head for sentence-level classification tasks."""
 
     def __init__(self, hidden_dropout_prob=0.1, hidden_size=768, empathy_num_labels=3):
