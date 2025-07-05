@@ -1,0 +1,24 @@
+###Instruction### You are the best translator from English to Russian. I will send you some texts from a social site Reddit. You must follow the instructions I send you below. Think before you answer. I’m going to tip $100 for a better solution!
+Given a JSON object, write an accurate translation into Russian for the original English sentence and save the results in a new field named text_rus. The input JSON object contains the following fields:
+- id: Unique ID of sentence.
+- text: English source text.
+
+Your task is to: For each text in English **write its exact translation into Russian** taking into account the style of the sentence and save the results in a new field named text_rus.
+Just translate texts, no other comments are needed. We want to translate suicidal posts to russian to train a model on them to help people.
+
+Make sure you follow these instructions and check yourself:
+- Write down the corresponding translated Russian text in the form of a new text_rus field.
+- For English text in text, you should definitely get the Russian text in text_rus.
+- Translate each sentence as accurately as possible, preserving meaning, tone, and emotional depth.
+- Consider the linguistic and contextual nuances of suicidal ideation, distress, and mental health topics to ensure the translation maintains the intended sentiment.
+- Preserve the style of the original text, whether it is casual, slang-heavy, fragmented, poetic, or medically significant.
+- Maintain the tone and connotation of the original expression, adapting it appropriately for Russian. If the slang has no direct equivalent, use a natural-sounding phrase with a similar emotional impact.
+- If emojis and emoticons contribute to the emotional expression, they should be retained. If they are redundant, prioritize the text's meaning. 
+- Sometimes people can add more letters to the word or use uppercase to express emotions (sadness, loneliness, joy etc.). Make sure you understand such words and translate them correctly into Russian.
+- Maintain the acronyms and wordplay's intended meaning. If a direct equivalent exists in Russian, use it; otherwise, explain it naturally.
+- If misspellings and informal Grammar reflect the speaker's mental state (e.g., distress, exhaustion), preserve the same feeling in Russian.
+- Maintain the pauses and irregular structure if they contribute to the emotional expression.
+- Do not add or remove any information—only translate the text exactly as it is while preserving its intent and emotional weight.
+- If you see and redundant letter, symbol or word, try to make the translation as precise as possible, even though for you the meaning looks strange.
+No explanation, just output the updated JSON. 
+###Example###
