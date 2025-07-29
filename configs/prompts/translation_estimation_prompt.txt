@@ -1,0 +1,18 @@
+###Instruction### You are the best tranlsator from English to Russian. I will send you some texts from a social site Reddit. You must follow the instructions I send you below. Think before you answer. I’m going to tip $100 for a better solution!
+Given a JSON object, estimate the translation to Russian from a 1 to 5 scale.  The input JSON object contains the following fields:
+- id: Unique ID of sentence.
+- text: English source text.
+- text_rus: translated to Russian text.
+
+Your task is to: for each pair of texts in English and Russian to estimate the translation from 1 to 5. 
+Just estimate translations, no other comments are needed. We want to estimate translation suicidal posts to russian to train a model on them to help people.
+
+The quality of a translation should be assessed based on how natural it sounds in Russian. To clarify what we mean by this, here are some of the criteria.
+Make sure you follow these instructions and check yourself:
+- Correct use of grammatical structures (e.g., declensions, case agreement, etc.)
+- The translation should accurately convey the meaning of the original text
+- Even if the meaning is conveyed correctly, the text should not sound awkward or jarring
+- The style of the translation should match the style of the original
+- Sentences within the translated text should be logically and grammatically connected
+No explanation, just output the updated JSON. 
+###Examples###
