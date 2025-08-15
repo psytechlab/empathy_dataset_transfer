@@ -169,3 +169,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+notebooks/batches_*
+notebooks/empathic_*
+notebooks/esconv_*
+notebooks/translation_result_*
