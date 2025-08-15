@@ -1,0 +1,70 @@
+{
+    "examples": [
+        {
+            "input": {
+                "id":"b022fa9f75bb470a849651a912bc9b94",
+                "text":"Each type of pigment can be identified by the specific pattern of wavelengths it absorbs from visible light , which is the absorption spectrum .",
+                "text_rus": "Каждый тип пигмента может быть идентифицирован по специфической структуре длин волн, которую он поглощает от видимого света, что является спектром поглощения."
+            },
+            "result": {
+                "id": "b022fa9f75bb470a849651a912bc9b94",
+                "value": 5
+            }
+        },
+        {
+            "input": {
+                "id":"258e3bba0d5e4934918d5f64142df310",
+                "text":"An individual with an error in chromosome number is described as aneuploid , a term that includes monosomy ( loss of one chromosome ) or trisomy ( gain of an extraneous chromosome ) .",
+                "text_rus": "Индивидуум с ошибочным количеством хромосом описывается как анеуплоид - термин, включающий моносомию (потеря одной хромосомы) или трисомию (увеличение посторонней хромосомы)."
+            },
+            "result": {
+                "id": "258e3bba0d5e4934918d5f64142df310",
+                "value": 5
+            }              
+        },
+        {
+            "input": {
+                "id": "2",
+                "text": "Aaaaaaand..... ... im crying in school again :)",
+                "text_rus": "АААААА..... ... я плачу в школе :)"
+            },
+            "result": {
+                "id": "2",
+                "value": 2
+            }
+        },
+        {
+            "input": {
+                "id": "3",
+                "text": "32m never had a girlfriend. It sucks that I've tried hard to find someone, even with online dating, but I feel like I'm going to be single forever.",
+                "text_rus": "32 никогда не имел девушки. Это отстой, что я старался изо всех сил найти кого-то, даже с помощью онлайн-знакомств, но я чувствую, что останусь одиноким навсегда."
+            },
+            "result": {
+                "id": "3",
+                "value": 3
+            }
+        },
+        {
+            "input": {
+                "id": "4",
+                "text": "Meh. What's the point....",
+                "text_rus": "Meh. Какой смысл..."
+            },
+            "result": {
+                "id": "4",
+                "value": 2
+            }
+        },
+        {
+            "input": {
+                "id": "5",
+                "text": "Yeet yeet. I'm gonna hang myself with the charger (",
+                "text_rus": "Yeet yeet.. I'm gonna повеситься с зарядкой ("
+            },
+            "result": {
+                "id": "5",
+                "value": 1
+            }
+        }
+    ]
+}
