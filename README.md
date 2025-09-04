@@ -14,7 +14,9 @@
 
 ## Переведенные датасеты
 
-1. [Epitome (Zhou et al., 2020)](https://arxiv.org/pdf/2009.08441), [HF dataset hub](https://huggingface.co/datasets/psytechlab/epitome-reddit-ru/)
+1. [Epitome (Zhou et al., 2020)](https://arxiv.org/pdf/2009.08441), [HF dataset hub](https://huggingface.co/datasets/psytechlab/epitome-reddit-ru/).
+
+Поскольку этот датсет основополаuающий для проекта, для него можно найти больше информации [здесь](./README_for_epitome.md).
   - Основной ноутбук `notebooks/translation_pipeline.ipynb`
   - Обучение модели: `notebooks/empathy-dataset-train.ipynb`
   - Проверка и отброска плохих переводов через:
