@@ -2,7 +2,7 @@
 
 **Empathy Dataset Transfer** — проект по переводу и адаптации англоязычных датасетов для оценки эмпатии на русский язык. Мы реализуем пайплайн перевода разных датасетов с помощью LLM. 
 
----
+Проект основан на [этой работе](https://astromis.ru/assets/pdf/BDCC-09-00116-with-cover.pdf) и [коде](https://github.com/Astromis/research/tree/master/rudeft).
 
 ## Цель проекта
 
@@ -12,68 +12,19 @@
 - Создать удобный пайплайн перевода для похожих задач
 - Создать бенчмарк по оценке эмпатии на русском языке
 
----
+## Переведенные датасеты
 
-## Поддерживаемые датасеты
+1. [Epitome (Zhou et al., 2020)](https://arxiv.org/pdf/2009.08441), [HF dataset hub](https://huggingface.co/datasets/psytechlab/epitome-reddit-ru/)
+  - Основной ноутбук `notebooks/translation_pipeline.ipynb`
+  - Обучение модели: `notebooks/empathy-dataset-train.ipynb`
+  - Проверка и отброска плохих переводов через:
+       - Перплексию (`translation_perplexity_evaluation.ipynb`)
+       - Эмбеддинговое расстояние (`translation_estimation.ipynb`)
+2. [ESConv (Zhou et al., 2021)](https://arxiv.org/abs/2106.01144), [HF dataset hub](https://huggingface.co/datasets/psytechlab/epitome-reddit-ru/)
+  - Основной ноутбук: `notebooks/esconv_dataset_translation.ipynb`
+3. [EmpathicIntents (Welivita et al., 2020)](https://aclanthology.org/2020.coling-main.429.pdf), [HF dataset hub](https://huggingface.co/datasets/psytechlab/EmpatheticIntents-ru)
+  - Основной ноутбук: `notebooks/empathic_intents_dataset_translation.ipynb`
 
-### 1. [Epitome (Zhou et al., 2020)](https://arxiv.org/pdf/2009.08441)
-- Источник: Reddit
-- Категории эмпатии:
-  - Emotional Reactions
-  - Interpretations
-  - Explorations
-- Перевод: LLM-пайплайн на основе Yandex GPT Pro, Qwen 2.5 и GPT-4o: `notebooks/translation_pipeline.ipynb`
-- Обучение модели: `notebooks/empathy-dataset-train.ipynb`
-
-**Результаты обучения модели на русском языке с архитектурой авторов статьи:**
-
-**Empathy Identification**
-| Модели            | Emotional reactions | Interpretations   | Explorations      |
-| ----------------- | ------------------- | ----------------- | ----------------- |
-| Метрики авторов   | 79.43 / **74.46**   | **84.04** / 62.6  | **92.61** / 72.58 |
-| rubert-base-cased | **80.6** / 72.97    | 83.62 / **78.41** | 89.22 / **79.94** |
-| xlm-roberta-base  | 75.8 / 56.2         | 82.47 / 67.55     | 89.26 / 58.58     |
-
-**Empathy Extraction**
-| Модели            | Emotional reactions | Interpretations  | Explorations          |
-| ----------------- | ------------------- | ---------------- | --------------------- |
-| Метрики авторов   | 53.57 / 64.83       | 57.4 / 55.9      | **71.56** / **84.48** |
-| rubert-base-cased | **61.31** / 65.79   | **61.8** / 61.99 | 66.74 / 83.14         |
-| xlm-roberta-base  | 52.49 / 57.61       | 65.96 / 63.56    | 66.16 / 80.33         |
-
-
-#### Перевод и коррекция
-
-- **Модели:**  
-  `YandexGPT Pro` → `Qwen-2.5-72b-instruct` → `GPT-4o`
-- **Подход:**
-  1. Первичный перевод (Yandex)
-  2. Коррекция ошибок и иноязычных вкраплений (Qwen/GPT-4o)
-  3. Проверка и отброска плохих переводов через:
-     - Перплексию (`translation_perplexity_evaluation.ipynb`)
-     - Эмбеддинговое расстояние (`translation_estimation.ipynb`)
-- **Формат перевода:** JSON-словари, сохраняющие `id`, `text`, `text_rus`
-
----
-
-### 2. [ESConv (Zhou et al., 2021)](https://arxiv.org/abs/2106.01144)
-- Датасет диалогов с эмпатийной поддержкой
-- Перевод через Qwen-2.5-72b и GPT-4o
-- Оптимизация через пакетную генерацию:
-  - Qwen: батчи по 32 текста
-  - GPT-4o: батчи по 64 текста
-- Входной формат: `{"id": ..., "text": ...}`  
-  Выход: `{"id": ..., "text": ..., "text_rus": ...}`
-- Ноутбук: `notebooks/esconv_dataset_translation.ipynb`
-
----
-
-### 3. [Empathic Intents (Rashkin et al., 2019)](https://aclanthology.org/P19-1534.pdf)
-- Краткие эмоциональные отклики на события
-- Тот же пайплайн, что и для ESConv
-- Ноутбук: `notebooks/empathic_intents_dataset_translation.ipynb`
-
----
 
 ## Структура проекта
 
